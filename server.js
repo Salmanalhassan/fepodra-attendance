@@ -110,6 +110,9 @@ async function getLecturerDashboardData(lecturerId) {
         activeSessionsCount
     };
 }
+
+
+
 app.get('/lecturer/dashboard', async (req, res) => {
     try {
         // Tabbatar cewa akwai lecturer da ya yi login
