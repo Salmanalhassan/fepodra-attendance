@@ -1,20 +1,28 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-const pool = mysql.createPool({
+// Duba ko ana amfani da Localhost ne ko Aiven
+const isLocal = process.env.DB_HOST === 'localhost' || process.env.DB_HOST === '127.0.0.1';
+
+const dbConfig = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    password: process.env.DB_PASS || process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+    queueLimit: 0
+};
 
+// Idan ba Localhost ba ne (wato Aiven ne), sannan a sanya SSL
+if (!isLocal) {
+    dbConfig.ssl = {
+        rejectUnauthorized: false
+    };
+}
+
+const pool = mysql.createPool(dbConfig);
 const promisePool = pool.promise();
 
 async function initializeDatabase() {
@@ -56,11 +64,11 @@ async function initializeDatabase() {
             )
         `);
 
-        // Gyara na musamman: Idan har akwai tsohon column mai suna 'student', mu riga mun canza shi ya zama 'student_id'
+        // Gyara na musamman: Canza tsohon column 'student' zuwa 'student_id' idan akwai shi
         try {
             await promisePool.query(`ALTER TABLE attendance_logs CHANGE COLUMN student student_id VARCHAR(50);`);
         } catch (e) {
-            // Idan column din ya riga ya zama student_id ko babu shi, zai wuce ba tare da wani matsala ba
+            // Idan column din ya riga ya zama student_id ko babu shi, zai wuce ba tare da matsala ba
         }
 
         console.log('Database tables verified/created successfully!');
@@ -69,15 +77,14 @@ async function initializeDatabase() {
     }
 }
 
-
-// Test the database connection & Initialize tables
+// Gwada haɗin database & Gini tables
 pool.getConnection((err, connection) => {
     if (err) {
         console.error('Database connection failed: ', err.message);
     } else {
-        console.log('Connected to Aiven MySQL Database successfully!');
+        console.log(`Connected to MySQL Database successfully (${isLocal ? 'Localhost' : 'Aiven Remote'})!`);
         connection.release();
-        initializeDatabase(); // Kira aikin gina teburan nan take
+        initializeDatabase();
     }
 });
 
