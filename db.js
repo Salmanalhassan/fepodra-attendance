@@ -64,11 +64,12 @@ async function initializeDatabase() {
             )
         `);
 
-        // Gyara na musamman: Canza tsohon column 'student' zuwa 'student_id' idan akwai shi
+       // Gyara na musamman: Canza tsohon column 'student' zuwa 'student_id' idan akwai shi
         try {
             await promisePool.query(`ALTER TABLE attendance_logs CHANGE COLUMN student student_id VARCHAR(50);`);
+            console.log('An nasarar canza column din student zuwa student_id a cikin attendance_logs!');
         } catch (e) {
-            // Idan column din ya riga ya zama student_id ko babu shi, zai wuce ba tare da matsala ba
+            console.log('Bayani kan ALTER TABLE:', e.message);
         }
 
         console.log('Database tables verified/created successfully!');
