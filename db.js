@@ -17,10 +17,9 @@ const pool = mysql.createPool({
 
 const promisePool = pool.promise();
 
-// Aiki na musamman na ƙirƙirar Tables ta atomatik idan babu su
 async function initializeDatabase() {
     try {
-        // 1. Tebur din Users (Admin, Lecturers, da Students)
+        // 1. Tebur din Users
         await promisePool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +32,7 @@ async function initializeDatabase() {
             )
         `);
 
-        // 2. Tebur din Sessions (Na QR Codes da malamai suke buɗewa)
+        // 2. Tebur din Sessions
         await promisePool.query(`
             CREATE TABLE IF NOT EXISTS sessions (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,7 +45,7 @@ async function initializeDatabase() {
             )
         `);
 
-        // 3. Tebur din Attendance Logs (Na adana halartar dalibai)
+        // 3. Tebur din Attendance Logs
         await promisePool.query(`
             CREATE TABLE IF NOT EXISTS attendance_logs (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,11 +56,19 @@ async function initializeDatabase() {
             )
         `);
 
+        // Gyara na musamman: Idan har akwai tsohon column mai suna 'student', mu riga mun canza shi ya zama 'student_id'
+        try {
+            await promisePool.query(`ALTER TABLE attendance_logs CHANGE COLUMN student student_id VARCHAR(50);`);
+        } catch (e) {
+            // Idan column din ya riga ya zama student_id ko babu shi, zai wuce ba tare da wani matsala ba
+        }
+
         console.log('Database tables verified/created successfully!');
     } catch (err) {
         console.error('Error creating database tables:', err.message);
     }
 }
+
 
 // Test the database connection & Initialize tables
 pool.getConnection((err, connection) => {
