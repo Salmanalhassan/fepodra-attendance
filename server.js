@@ -131,9 +131,9 @@ app.get('/lecturer/dashboard', async (req, res) => {
             activeSessionsCount: stats.activeSessionsCount
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Error loading lecturer dashboard');
-    }
+    console.error(err);
+    res.status(500).send('Error loading lecturer dashboard: ' + err.message);
+}
 });
 
 app.post('/lecturer/generate-qr', async (req, res) => {
