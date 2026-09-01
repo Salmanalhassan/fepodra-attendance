@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FEPODRA Attendance Portal</title>
+    <style>
+        :root {
+            --primary-green: #006633;
+            --dark-green: #004d26;
+            --accent-gold: #ffc107;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-color: #333333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Hoton bango mai kamannin jami'a da yanayin karatu tare da dim overlay don kiyaye fari da tsaftar rubutu */
+            background: linear-gradient(rgba(0, 51, 26, 0.75), rgba(0, 51, 26, 0.85)), 
+                        url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+        }
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 40px 35px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header .badge {
+            display: inline-block;
+            background: rgba(0,102,51,0.1);
+            color: var(--primary-green);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .login-card h2 {
+            color: var(--dark-green);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .login-card p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 13px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background: #fbfbfb;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0,102,51,0.15);
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,102,51,0.25);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,102,51,0.35);
+        }
+        .error {
+            background: #fff5f5;
+            color: #e53e3e;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #fed7d7;
+        }
+        .back-home {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .back-home a {
+            color: #555;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .back-home a:hover {
+            color: var(--primary-green);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <span class="badge">FEPODRA Portal</span>
+                <h2>Welcome Back</h2>
+                <p>Sign in to access your attendance dashboard</p>
+            </div>
+
+            <% if (typeof error !== 'undefined') { %>
+                <div class="error"><%= error %></div>
+            <% } %>
+
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label>Portal ID / Staff ID</label>
+                    <input type="text" name="portal_id" placeholder="e.g., ND/COM/24/0001" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="back-home">
+                <a href="/">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

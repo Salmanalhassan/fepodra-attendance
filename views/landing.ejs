@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to FEPODRA Attendance Portal</title>
+    <style>
+        :root {
+            --primary-green: #006633;
+            --dark-green: #004d26;
+            --accent-gold: #ffc107;
+            --light-bg: #f8f9fa;
+            --text-color: #333333;
+            --card-bg: rgba(255, 255, 255, 0.96);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0, 51, 26, 0.8), rgba(0, 51, 26, 0.85)), 
+                        url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Header / Navbar */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,102,51,0.1);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo-area h1 {
+            font-size: 20px;
+            color: var(--primary-green);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .login-nav-btn {
+            background: var(--primary-green);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,102,51,0.2);
+        }
+        .login-nav-btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0,102,51,0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .hero-text {
+            flex: 1;
+            min-width: 320px;
+            color: white;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--accent-gold);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        .hero-text h2 {
+            font-size: 40px;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .hero-text p {
+            font-size: 16px;
+            color: #e2e8f0;
+            margin-bottom: 35px;
+            line-height: 1.7;
+        }
+        .cta-btn {
+            background: var(--accent-gold);
+            color: #111;
+            padding: 16px 36px;
+            font-size: 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .cta-btn:hover {
+            background: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+        }
+
+        /* Hero Images Gallery Container */
+        .hero-images {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .hero-image-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        .hero-image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+        .image-caption {
+            margin-top: 10px;
+            margin-bottom: 4px;
+            color: #333;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Features Section */
+        .features {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 80px 50px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .features h3 {
+            color: var(--dark-green);
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .features-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            line-height: 1.5;
+        }
+        .feature-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            background: var(--light-bg);
+            padding: 35px 30px;
+            border-radius: 14px;
+            width: 300px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eaeaea;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            border-color: rgba(0,102,51,0.2);
+        }
+        .feature-card h4 {
+            color: var(--primary-green);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Meet the Project Team Section */
+        .team-section {
+            background: #f1f5f9;
+            padding: 80px 50px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        .team-section h3 {
+            color: var(--dark-green);
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .team-subtitle {
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .team-card {
+            background: #ffffff;
+            padding: 25px 20px;
+            border-radius: 16px;
+            width: 280px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .team-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-green);
+        }
+        .team-card h4 {
+            color: var(--primary-green);
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .team-card .dept {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #ccc;
+            font-size: 13px;
+            background: rgba(0, 34, 17, 0.95);
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 40px 20px; text-align: center; justify-content: center; }
+            header { padding: 15px 20px; }
+            .hero-text h2 { font-size: 32px; }
+            .features, .team-section { padding: 50px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="logo-area">
+            <h1>FEPODRA Attendance</h1>
+        </div>
+        <a href="/login" class="login-nav-btn">Login to Portal</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <span class="badge">Federal Polytechnic, Daura</span>
+            <h2>Smart QR Code Attendance Management System</h2>
+            <p>An advanced digital solution designed to streamline classroom attendance tracking at Federal Polytechnic, Daura. Students can effortlessly scan verification codes in real-time while the system securely records metrics instantly.</p>
+            <a href="/login" class="cta-btn">Get Started / Login →</a>
+        </div>
+        <div class="hero-images">
+            <!-- First Image: Student scanning/using smartphone -->
+            <div class="hero-image-card">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Student scanning QR code">
+                <div class="image-caption">📱 Student scanning session attendance via mobile</div>
+            </div>
+            <!-- Second Image: Classroom / Lecturer context -->
+            <div class="hero-image-card">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80" alt="Lecturer and students interacting in a modern classroom">
+                <div class="image-caption">🎓 Interactive Classroom & Automated Attendance Logs</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h3>Core System Features</h3>
+        <p class="features-subtitle">Built with high reliability, security, and speed to empower academic monitoring.</p>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>⚡ Real-Time Scanning</h4>
+                <p>Lecturers can generate secure, time-bound 5-minute QR code sessions allowing students to quickly check-in via mobile devices.</p>
+            </div>
+            <div class="feature-card">
+                <h4>📊 Semester Summary</h4>
+                <p>Generate comprehensive semester analytics detailing individual student presence and absence logs seamlessly.</p>
+            </div>
+            <div class="feature-card">
+                <h4>🔒 Secured & Fast</h4>
+                <p>Role-based protected dashboards ensuring strict data integrity, preventing unauthorized entries, and safeguarding campus records.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet the Project Team Section -->
+    <section class="team-section">
+        <h3>Meet the Project Team</h3>
+        <p class="team-subtitle">The brilliant minds behind the development of this attendance portal.</p>
+        <div class="team-grid">
+            <!-- Student 1 -->
+            <div class="team-card">
+                <img src="/images/mariya.jpg" alt="Mariya Tukur Lawal">
+                <h4>Mariya Tukur Lawal</h4>
+                <p class="dept">Computer Science</p>
+            </div>
+            <!-- Student 2 -->
+            <div class="team-card">
+                <img src="/images/alamin.jpg" alt="Alamin Ibrahim">
+                <h4>Alamin Ibrahim</h4>
+                <p class="dept">Computer Science</p>
+            </div>
+            <!-- Student 3 -->
+            <div class="team-card">
+                <img src="/images/nafisa.jpg" alt="Nafisa Sabo">
+                <h4>Nafisa Sabo</h4>
+                <p class="dept">Computer Science</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Federal Polytechnic, Daura (FEPODRA). All Rights Reserved.
+    </footer>
+
+</body>
+</html>

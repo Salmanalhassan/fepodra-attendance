@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student - FEPODRA Attendance</title>
+    <style>
+        :root {
+            --primary-green: #006633;
+            --dark-green: #004d26;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light-bg); margin: 0; padding: 0; color: var(--text-color); }
+        
+        .navbar { background: var(--primary-green); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .navbar h2 { margin: 0; font-size: 20px; }
+        .back-btn { color: white; text-decoration: none; background: #6c757d; padding: 8px 15px; border-radius: 4px; font-size: 14px; transition: 0.3s; }
+        .back-btn:hover { background: #5a6268; }
+
+        .container { max-width: 600px; margin: 40px auto; background: var(--card-bg); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--primary-green); }
+        
+        h3 { color: var(--dark-green); margin-top: 0; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 15px; transition: 0.2s; }
+        input:focus { border-color: var(--primary-green); outline: none; box-shadow: 0 0 5px rgba(0,102,51,0.2); }
+        input:disabled { background: #e9ecef; cursor: not-allowed; }
+        
+        button { width: 100%; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        button:hover { background: var(--dark-green); }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h2>FEPODRA Attendance Portal</h2>
+        <a href="/lecturer/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <h3>Edit Student Details</h3>
+        <form action="/lecturer/update-student" method="POST">
+            <!-- Hidden input to pass portal_id safely in req.body -->
+            <input type="hidden" name="portal_id" value="<%= student.portal_id %>">
+
+            <div class="form-group">
+                <label>Portal ID / Reg Number (Cannot be changed):</label>
+                <input type="text" value="<%= student.portal_id %>" disabled>
+            </div>
+            <div class="form-group">
+                <label>Full Name:</label>
+                <input type="text" name="fullname" value="<%= student.fullname %>" required>
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="text" name="password" value="<%= student.password %>" required>
+            </div>
+            <button type="submit">Update Student</button>
+        </form>
+    </div>
+
+</body>
+</html>

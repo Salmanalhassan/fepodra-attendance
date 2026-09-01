@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Check-In - FEPODRA</title>
+    <style>
+        :root {
+            --primary-green: #006633;
+            --dark-green: #004d26;
+            --accent-gold: #ffc107;
+            --light-bg: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-color: #333333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(rgba(0, 51, 26, 0.8), rgba(0, 51, 26, 0.85)), 
+                        url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .back-nav {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 450px;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 6px solid var(--primary-green);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h2 { 
+            color: var(--dark-green); 
+            margin-top: 0; 
+            font-size: 24px;
+            font-weight: 800;
+        }
+        .course-badge {
+            display: inline-block;
+            background: rgba(0, 102, 51, 0.1);
+            color: var(--primary-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .form-group { 
+            margin-bottom: 20px; 
+            text-align: left; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #444; 
+            font-size: 14px;
+        }
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 15px; 
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(0, 102, 51, 0.15);
+        }
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--primary-green); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            box-shadow: 0 4px 12px rgba(0, 102, 51, 0.2);
+        }
+        button:hover { 
+            background: var(--dark-green); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 102, 51, 0.3);
+        }
+        .alert-box {
+            display: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+        }
+        .success-box { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error-box { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="/lecturer/dashboard" class="back-btn">
+            ← Back to Lecturer Dashboard
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>FEPODRA Attendance</h2>
+        <div class="course-badge">Course: <%= session.course_code %></div>
+
+        <!-- Wajen da saƙon zai fito kai tsaye ba tare da shafi ya sauya ba -->
+        <div id="alertBox" class="alert-box"></div>
+
+        <form id="checkInForm">
+            <input type="hidden" id="session_id" value="<%= session.id %>">
+            <input type="hidden" id="token" value="<%= session.qr_token %>">
+
+            <div class="form-group">
+                <label>Enter Your Portal ID (Reg Number):</label>
+                <input type="text" id="student_id" placeholder="e.g., ND/COM/24/0001" required>
+            </div>
+            <button type="submit" id="submitBtn">Confirm & Mark Attendance</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('checkInForm');
+        const alertBox = document.getElementById('alertBox');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Hana shafin ya sake buɗewa (reload)
+
+            const student_id = document.getElementById('student_id').value;
+            const session_id = document.getElementById('session_id').value;
+            const token = document.getElementById('token').value;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Checking...';
+            alertBox.style.display = 'none';
+
+            try {
+                // Tura bayanai ta hanyar AJAX (Fetch) zuwa Server
+                const response = await fetch('/student/confirm-check-in', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ student_id, session_id, token })
+                });
+
+                const data = await response.json();
+
+                alertBox.style.display = 'block';
+
+                if (response.ok && data.success) {
+                    alertBox.className = 'alert-box success-box';
+                    alertBox.textContent = '✓ ' + data.message;
+                    form.reset(); // Share filin rubutun idan an yi nasara
+                } else {
+                    alertBox.className = 'alert-box error-box';
+                    alertBox.textContent = '⚠️ ' + (data.message || 'Invalid or Expired Attendance Session!');
+                }
+            } catch (err) {
+                alertBox.style.display = 'block';
+                alertBox.className = 'alert-box error-box';
+                alertBox.textContent = '⚠️ Wata matsala ta faru, ka sake gwadawa.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirm & Mark Attendance';
+            }
+        });
+    </script>
+
+</body>
+</html>

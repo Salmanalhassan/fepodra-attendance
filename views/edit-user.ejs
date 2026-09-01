@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User - FEPODRA Attendance</title>
+    <style>
+        :root {
+            --primary-green: #006633;
+            --dark-green: #004d26;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-color: #333333;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(rgba(0, 51, 26, 0.8), rgba(0, 51, 26, 0.85)), 
+                        url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0; 
+            padding: 40px 20px; 
+            color: var(--text-color); 
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: var(--card-bg); 
+            backdrop-filter: blur(10px);
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 6px solid var(--primary-green); 
+        }
+        h2 { 
+            color: var(--dark-green); 
+            margin-top: 0; 
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        p.desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #444;
+            font-size: 14px;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px 14px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+        input:focus, select:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(0, 102, 51, 0.15);
+        }
+        input[readonly] {
+            background: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .btn-update { 
+            flex: 1;
+            padding: 14px; 
+            background: var(--primary-green); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            font-size: 15px;
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        .btn-update:hover { 
+            background: var(--dark-green); 
+        }
+        .btn-cancel {
+            flex: 1;
+            padding: 14px;
+            background: #6c757d;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+        .btn-cancel:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Edit User Profile</h2>
+        <p class="desc">Update account information for portal ID: <strong><%= user.portal_id %></strong></p>
+        
+       <form action="/admin/edit-user" method="POST">
+    
+    <!-- Mun sa hidden input domin tura portal_id yayin submitting -->
+    <input type="hidden" name="portal_id" value="<%= user.portal_id %>">
+
+    <div class="form-group">
+        <label>Portal ID / Staff ID (Cannot be changed)</label>
+        <input type="text" value="<%= user.portal_id %>" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="fullname" value="<%= user.fullname %>" required>
+    </div>
+
+    <div class="form-group">
+        <label>User Role</label>
+        <select name="role">
+            <option value="student" <%= user.role === 'student' ? 'selected' : '' %>>Student</option>
+            <option value="lecturer" <%= user.role === 'lecturer' ? 'selected' : '' %>>Lecturer</option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+        </select>
+    </div>
+
+    <div class="btn-container">
+        <a href="/admin/dashboard" class="btn-cancel">Cancel</a>
+        <button type="submit" class="btn-update">Save Changes</button>
+    </div>
+
+</form>
+
+    </div>
+
+
+</body>
+</html>
