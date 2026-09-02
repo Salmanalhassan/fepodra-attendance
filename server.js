@@ -224,7 +224,7 @@ app.post('/lecturer/register-student', async (req, res) => {
 app.get('/lecturer/edit-student', async (req, res) => {
     const portal_id = req.query.portal_id;
     try {
-        const [rows] = await db.query('SELECT * FROM users WHERE portal_id = ? AND role = "student"', [portal_id]);
+        const [rows] = await db.query("SELECT * FROM users WHERE portal_id = ? AND role = 'student'", [portal_id]);
         if (rows.length === 0) {
             return res.send('Student not found');
         }
