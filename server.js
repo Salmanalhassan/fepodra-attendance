@@ -313,7 +313,7 @@ app.post('/student/confirm-check-in', async (req, res) => {
             });
         }
 
-        const [studentRows] = await db.query('SELECT * FROM users WHERE portal_id = ? AND role = "student"', [student_id]);
+       const [studentRows] = await db.query("SELECT * FROM users WHERE portal_id = ? AND role = 'student'", [student_id]);
 
         if (studentRows.length === 0) {
             return res.status(400).json({ 
