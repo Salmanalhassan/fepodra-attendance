@@ -202,9 +202,9 @@ app.post('/lecturer/register-student', async (req, res) => {
 
     try {
         await db.query(
-            'INSERT INTO users (portal_id, fullname, password, role, registered_by) VALUES (?, ?, ?, "student", ?)',
-            [portal_id, fullname, password, lecturer_id]
-        );
+    "INSERT INTO users (portal_id, fullname, password, role, registered_by) VALUES (?, ?, ?, 'student', ?)",
+    [portal_id, fullname, password, lecturer_id]
+);
         // Idan komai ya tafi daidai, ka dawo da shi dashboard tare da sakon nasara (optional)
         res.redirect('/lecturer/dashboard?success=Student registered successfully');
     } catch (err) {
