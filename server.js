@@ -162,7 +162,7 @@ app.post('/lecturer/generate-qr', async (req, res) => {
         );
 
         const sessionId = result.insertId;
-        const checkInUrl = `http://localhost:3000/student/check-in?session=${sessionId}&token=${token}`;
+        const checkInUrl = `https://fepodra-attendance.onrender.com/student/check-in?session=${sessionId}&token=${token}`;
 
         QRCode.toDataURL(checkInUrl, async (err, qrCodeImage) => {
             if (err) {
