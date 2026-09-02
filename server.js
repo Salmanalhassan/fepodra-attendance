@@ -257,8 +257,7 @@ app.post('/lecturer/delete-student', async (req, res) => {
 
     try {
         await db.query('DELETE FROM attendance_logs WHERE student_id = ?', [portal_id]);
-        await db.query('DELETE FROM users WHERE portal_id = ? AND role = "student"', [portal_id]);
-        
+       await db.query("DELETE FROM users WHERE portal_id = ? AND role = 'student'", [portal_id]);
         res.redirect('/lecturer/dashboard');
     } catch (err) {
         console.error(err);
