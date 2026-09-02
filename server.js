@@ -82,9 +82,9 @@ app.post('/login', async (req, res) => {
 async function getLecturerDashboardData(lecturerId) {
     // 1. Dauko daliban da wannan lecturer din ya yi musu register kaɗai
     const [studentRows] = await db.query(
-        'SELECT portal_id, fullname, created_at FROM users WHERE role = "student" AND registered_by = ? ORDER BY id DESC',
-        [lecturerId]
-    );
+    "SELECT portal_id, fullname, created_at FROM users WHERE role = 'student' AND registered_by = ? ORDER BY id DESC",
+    [lecturerId]
+);
     const totalStudents = studentRows.length;
 
     // 2. Today's Present (Lissafa yawan daliban da suka yi attendance a ajin WANNAN LECTURER din a yau)
